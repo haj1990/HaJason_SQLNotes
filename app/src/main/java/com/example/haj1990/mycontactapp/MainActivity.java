@@ -54,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
         while (res.moveToNext()) {
             //Append res column 0, 1,2,3 to the buffer - see Stringbuffer and cursor api's
             //Delimit each of the "appends" with line feed "\n"
+            buffer.append("ID: " + res.getString(0));
+            buffer.append("\n" + "Name: " + res.getString(1));
+            buffer.append("\n" + "Phone: " + res.getString(2));
+            buffer.append("\n" + "Address: " + res.getString(3));
+            buffer.append("\n");
         }
 
         showMessage("Data", buffer.toString());
