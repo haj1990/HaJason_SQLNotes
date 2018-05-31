@@ -1,6 +1,7 @@
 package com.example.haj1990.mycontactapp;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -72,4 +73,33 @@ public class MainActivity extends AppCompatActivity {
         builder.setMessage(message);
         builder.show();
     }
+
+    public static final String EXTRA_MESSAGE = "com.example.jasonha.mycontactapp_p2.MESSAGE";
+
+    public void searchRecord(View view) {
+        Log.d("MyContactApp", "MainActivity: launching SearchActivity");
+        Intent intent = new Intent(this, SearchActivity.class);
+        Cursor res = myDb.getAllData();
+        Log.d("MyContactApp", "MainActivity: viewData: received cursor");
+
+        if (res.getCount() == 0) {
+            showMessage("Error", "No data found in database");
+            return;
+        }
+        String thing = new String();
+        thing = "";
+        while (res.moveToNext()) {
+            if (editName.getText().toString().equals(res.getString(1))) {
+                thing += "ID: " + res.getString(0) + "\n Name: " + res.getString(1)
+                        + "\n Phone: "+ res.getString(2)
+                        + "\n Address: " + res.getString(3) + "\n";
+            }
+        }
+        if (thing.equals("")) {
+            thing += "No entries found";
+        }
+        intent.putExtra(EXTRA_MESSAGE, thing);
+        startActivity(intent);
+    }
+
 }
